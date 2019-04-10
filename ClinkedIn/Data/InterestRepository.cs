@@ -19,5 +19,9 @@ namespace ClinkedIn.Data
 
             return _interests;
         }
+        public List<Interest> GetInterestsList()
+        {
+            return _interests;
+        }
     }
 }

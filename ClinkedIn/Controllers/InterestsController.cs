@@ -36,5 +36,12 @@ namespace ClinkedIn.Controllers
             var listOfSimilarUserId = newInterestList.Where(x => x.UserId == createRequest.UserId).ToList();
             return Created($"api/{listOfSimilarUserId}", listOfSimilarUserId);
         }
+
+        [HttpGet("getInterests")]
+        public ActionResult getUsersBySameInterest()
+        {
+            var listOfInterests = _interestRepository.GetInterestsList();
+            return Ok($"api/{listOfInterests}");
+        }
     }
 }
