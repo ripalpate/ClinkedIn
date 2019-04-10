@@ -33,13 +33,13 @@ namespace ClinkedIn.Controllers
         //    return Created($"api/connect/{newConnection.Id}", newConnection);
         //}
 
-        [HttpPost("connect")]
+        [HttpPost()]
 
         public ActionResult AddConnection(CreateConnectionRequest createRequest)
         {
             if (!_validator.Validate(createRequest))
             {
-                return BadRequest(new { error = "conectionss must have a userId1, userId2 and a 'isFriend' bool." });
+                return BadRequest(new { error = "conections must have a userId1, userId2 and a 'isFriend' bool." });
             }
 
             var newConnection = _connectionRepository.AddConnection(createRequest.UserId1, createRequest.UserId2, createRequest.IsFriend);
