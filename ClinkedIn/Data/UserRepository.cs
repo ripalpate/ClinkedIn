@@ -10,9 +10,9 @@ namespace ClinkedIn.Data
     {
         static List<User> _users = new List<User>();
 
-        public User AddUser(string username, string password, string displayName)
+        public User AddUser(string username, string password, string displayName, string offense)
         {
-            var newUser = new User(username, password, displayName);
+            var newUser = new User(username, password, displayName, offense);
 
             newUser.Id = _users.Count + 1;
 

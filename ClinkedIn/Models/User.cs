@@ -15,11 +15,12 @@ namespace ClinkedIn.Models
         public int Wallet { get; set; }
         public string Offense { get; set; }
 
-        public User(string username, string password, string displayName)
+        public User(string username, string password, string displayName, string offense)
             {
                 Username = username;
                 Password = password;
                 DisplayName = displayName;
+                Offense = offense;
             }
     }
 }
