@@ -18,5 +18,13 @@ namespace ClinkedIn.Models
             UserId2 = userId2;
             IsFriend = isFriend;
         }
+
+        public Connection(int userId1, int userId2, bool isFriend, int id)
+        {
+            UserId1 = userId1;
+            UserId2 = userId2;
+            IsFriend = isFriend;
+            Id = id;
+        }
     }
 }
