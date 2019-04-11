@@ -15,12 +15,15 @@ namespace ClinkedIn.Controllers
     public class UserServicesController : ControllerBase
     {
         readonly UserServiceRepository _userServiceRepository;
+        readonly UserRepository _userRepository;
         readonly CreateUserServiceRequestValidator _validator;
+        readonly ServiceRepository _serviceRepository;
         public UserServicesController()
         {
             _validator = new CreateUserServiceRequestValidator();
             _userServiceRepository = new UserServiceRepository();
-
+            _userRepository = new UserRepository();
+            _serviceRepository = new ServiceRepository();
         }
 
         [HttpPost("userService")]
@@ -32,7 +35,7 @@ namespace ClinkedIn.Controllers
                 return BadRequest(new { error = "userServices must have an id and a userId" });
             }
 
-            var newUserService = _userServiceRepository.AddUserService(createRequest.Id, createRequest.UserId);
+            var newUserService = _userServiceRepository.AddUserService(createRequest.Id, createRequest.UserId, createRequest.ServiceId);
 
             return Created($"api/userServices/{newUserService.Id}", newUserService);
         }
@@ -47,15 +50,21 @@ namespace ClinkedIn.Controllers
 
         }
 
-        [HttpGet("getUserServicesByName")]
+        [HttpGet("getUserServicesById")]
 
-        public ActionResult getUserServiceByName(CreateUserServiceRequest createRequest)
+        public ActionResult getUserServiceByName(int userId)
         {
             var allUserServices = _userServiceRepository.GetUserServices();
+            var allUsers = _userRepository.GetAllUsers();
+            var allServices = _serviceRepository.GetServices();
 
-            var limitedUserServices = (from service in allUserServices
-                                   where (service.UserId == 2)
-                                   select service).ToList();
+            var limitedUserServices = (from userServices in allUserServices
+                                       join service in allServices on
+                                        (from userService in allUserServices
+                                         join user in allUsers on userService.UserId equals user.Id
+                                         where (userService.UserId == 2)
+                                         select userService.ServiceId).SingleOrDefault() equals service.Id
+                                       select service.Name);
 
             return Ok(limitedUserServices);
         }

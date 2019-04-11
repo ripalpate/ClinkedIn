@@ -9,5 +9,6 @@ namespace ClinkedIn.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int ServiceId { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace ClinkedIn.Validators
         public bool Validate(CreateUserServiceRequest requestToValidate)
         {
             return !(requestToValidate.Id == null
-                || requestToValidate.UserId == null);
+                || requestToValidate.UserId == null
+                || requestToValidate.ServiceId == null);
         }
     }
 }
