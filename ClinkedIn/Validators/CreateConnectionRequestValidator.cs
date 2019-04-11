@@ -11,7 +11,7 @@ namespace ClinkedIn.Validators
         public bool Validate(CreateConnectionRequest requestToValidate)
 
         {
-            return !(requestToValidate.UserId1 == null
+            return !((requestToValidate.UserId1 == null)
                 || (requestToValidate.UserId2 == null)
                 || (requestToValidate.IsFriend == null));
         }

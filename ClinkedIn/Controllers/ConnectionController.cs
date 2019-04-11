@@ -14,24 +14,53 @@ namespace ClinkedIn.Controllers
     [ApiController]
     public class ConnectionController : ControllerBase
     {
-       readonly ConnectionRepository _connectionRepository;
-       readonly CreateConnectionRequestValidator _validator;
+        readonly ConnectionRepository _connectionRepository;
+        readonly UserRepository _userRepository;
+        readonly CreateConnectionRequestValidator _validator;
 
         public ConnectionController()
         {
             _connectionRepository = new ConnectionRepository();
+            _userRepository = new UserRepository();
             _validator = new CreateConnectionRequestValidator();
 
         }
 
-        //[HttpPost("connect")]
+        [HttpGet("{userId}")]
 
-        //public ActionResult AddConnection(Connection connection)
-        //{
-        //    var newConnection = _connectionRepository.AddConnection(connection.UserId1, connection.UserId2, connection.IsFriend);
+        public ActionResult GetAllConnectionsByUserId(int userId)
+        {
+            var listOfConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
 
-        //    return Created($"api/connect/{newConnection.Id}", newConnection);
-        //}
+            var listOfMyConnections = listOfConnections.Where(x => x.UserId1 == userId).ToList();
+
+            return Ok(listOfMyConnections);
+        }
+
+        [HttpGet("enemies/{userId}")]
+
+        public ActionResult GetMyEnemiesByUserId(int userId)
+        {
+            var listOfConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
+            var listOfUsers = _userRepository.GetUsersById(userId);
+            var enemyNames = new List<string>();
+
+            var listOfMyEnemies = listOfConnections.Where(x => x.UserId1 == userId && !x.IsFriend)
+                .Select(y => y.UserId2)
+                .ToList();
+            foreach(User user in listOfUsers)
+            {
+                foreach(int enemy in listOfMyEnemies)
+                {
+                    if(user.Id == enemy)
+                    {
+                        enemyNames.Add(user.Username);
+                    }
+                }
+            }
+
+            return Ok(enemyNames);
+        }
 
         [HttpPost()]
 

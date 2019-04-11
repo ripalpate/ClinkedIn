@@ -17,6 +17,8 @@ namespace ClinkedIn.Data
            new Connection(2, 4, true, 5)
         };
 
+        public static List<Connection> _enemies = new List<Connection>();
+
         public Connection AddConnection(int userId1, int userId2, bool isFriend)
         {
             var newConnection = new Connection(userId1, userId2, isFriend);
@@ -27,5 +29,15 @@ namespace ClinkedIn.Data
 
             return newConnection;
         }
+
+        public List<Connection> GetAllConnectionsByUserId(int userId)
+        {
+            return _connections;
+        }
+
+        //public List<Connection> GetMyEnemiesByUserId(int userId)
+        //{
+        //    return _connections;
+        //}
     }
 }
