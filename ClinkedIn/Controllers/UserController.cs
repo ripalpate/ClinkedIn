@@ -23,6 +23,24 @@ namespace ClinkedIn.Controllers
 
         }
 
+        [HttpGet]
+
+        public ActionResult GetAllUsers()
+        {
+            var listOfUsers = _userRepository.GetAllUsers();
+
+            return Ok(listOfUsers);
+        }
+
+        [HttpGet("{userId}")]
+
+        public ActionResult GetUsersById(int userId)
+        {
+            var listOfUsers = _userRepository.GetUsersById(userId).Where(x => x.Id == userId).ToList();
+
+            return Ok(listOfUsers);
+        }
+
         [HttpPost("register")]
 
         public ActionResult AddUser(CreateUserRequest createRequest)
