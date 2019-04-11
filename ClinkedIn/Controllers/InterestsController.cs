@@ -33,15 +33,30 @@ namespace ClinkedIn.Controllers
             }
 
             var newInterestList = _interestRepository.AddInterest(createRequest.InterestName, createRequest.UserId);
-            var listOfSimilarUserId = newInterestList.Where(x => x.UserId == createRequest.UserId).ToList();
-            return Created($"api/{listOfSimilarUserId}", listOfSimilarUserId);
+            var listOfInterestWithSameUserId = newInterestList.Where(x => x.UserId == createRequest.UserId).ToList();
+            return Created($"api/{listOfInterestWithSameUserId}", listOfInterestWithSameUserId);
         }
 
         [HttpGet("getInterests")]
-        public ActionResult getUsersBySameInterest()
+        public ActionResult getAllInterest()
         {
-            var listOfInterests = _interestRepository.GetInterestsList();
-            return Ok($"api/{listOfInterests}");
+            var listOfInterests = _interestRepository.GetAllInterestsList();
+            //  var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == "Watch Movies").ToList();
+            //return Ok(listOfFriendsWithSameInterest);
+            return Ok(listOfInterests);
+        }
+
+        [HttpGet("getInterests/{interestName}")]
+        public ActionResult getUsersBySameInterest(string interestName)
+        {
+            var listOfInterests = _interestRepository.GetInterestsList(interestName);
+            var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == interestName).ToList();
+            //var listofFriendsWithSameInterest =  listOfInterests.GroupBy(x => x)
+            //                 .Where(g => g.Count() > 1)
+            //                 .Select(g => g.Key)
+            //                 .ToList();
+            return Ok(listOfFriendsWithSameInterest);
+            //return Ok(listOfInterests);
         }
     }
 }
