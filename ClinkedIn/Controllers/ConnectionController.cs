@@ -62,6 +62,32 @@ namespace ClinkedIn.Controllers
             return Ok(enemyNames);
         }
 
+        [HttpGet("friends/{userId}")]
+
+        public ActionResult GetMyFriendsByUserId(int userId)
+        {
+            var listOfConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
+            var listOfUsers = _userRepository.GetUsersById(userId);
+            var friendNames = new List<string>();
+
+            var listOfMyFriends = listOfConnections.Where(x => x.UserId1 == userId && x.IsFriend)
+                .Select(y => y.UserId2)
+                .ToList();
+
+            foreach (User user in listOfUsers)
+            {
+                foreach (int friend in listOfMyFriends)
+                {
+                    if (user.Id == friend)
+                    {
+                        friendNames.Add(user.Username);
+                    }
+                }
+            }
+
+            return Ok(friendNames);
+        }
+
         [HttpPost()]
 
         public ActionResult AddConnection(CreateConnectionRequest createRequest)
