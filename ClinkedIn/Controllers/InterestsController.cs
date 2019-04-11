@@ -15,16 +15,18 @@ namespace ClinkedIn.Controllers
     public class InterestsController : ControllerBase
     {
         readonly InterestRepository _interestRepository;
+        readonly UserRepository _userRepository;
         readonly CreateInterestValidator _validator;
+
         public InterestsController()
         {
             _validator = new CreateInterestValidator();
             _interestRepository = new InterestRepository();
-
+            _userRepository = new UserRepository();
         }
 
+        //CREAT interests for users.
         [HttpPost]
-
         public ActionResult AddInterest(CreateInterestRequest createRequest)
         {
             if (!_validator.ValidateInterest(createRequest))
@@ -37,19 +39,19 @@ namespace ClinkedIn.Controllers
             return Created($"api/{listOfInterestWithSameUserId}", listOfInterestWithSameUserId);
         }
 
-        [HttpGet("getInterests")]
-        public ActionResult getAllInterest()
-        {
-            var listOfInterests = _interestRepository.GetAllInterestsList();
-            return Ok(listOfInterests);
-        }
-
+        //GET users with same interests.
         [HttpGet("getInterests/{interestName}")]
         public ActionResult getUsersBySameInterest(string interestName)
         {
+            var listOfUsers = _userRepository.GetAllUsers();
             var listOfInterests = _interestRepository.GetInterestsList(interestName);
-            var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == interestName).ToList();
-            return Ok(listOfFriendsWithSameInterest);
+            var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == interestName);
+            var FriendsThatUserCanMake = listOfUsers
+                .Join(listOfFriendsWithSameInterest, 
+                user => user.Id, 
+                interest => interest.UserId,
+                (user, interest) => new { user.Username, user.DisplayName, interest.InterestName });
+            return Ok(FriendsThatUserCanMake);
         }
     }
 }
