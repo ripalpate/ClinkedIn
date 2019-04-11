@@ -41,8 +41,6 @@ namespace ClinkedIn.Controllers
         public ActionResult getAllInterest()
         {
             var listOfInterests = _interestRepository.GetAllInterestsList();
-            //  var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == "Watch Movies").ToList();
-            //return Ok(listOfFriendsWithSameInterest);
             return Ok(listOfInterests);
         }
 
@@ -51,12 +49,7 @@ namespace ClinkedIn.Controllers
         {
             var listOfInterests = _interestRepository.GetInterestsList(interestName);
             var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == interestName).ToList();
-            //var listofFriendsWithSameInterest =  listOfInterests.GroupBy(x => x)
-            //                 .Where(g => g.Count() > 1)
-            //                 .Select(g => g.Key)
-            //                 .ToList();
             return Ok(listOfFriendsWithSameInterest);
-            //return Ok(listOfInterests);
         }
     }
 }
