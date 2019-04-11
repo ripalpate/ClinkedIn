@@ -34,10 +34,5 @@ namespace ClinkedIn.Data
         {
             return _connections;
         }
-
-        //public List<Connection> GetMyEnemiesByUserId(int userId)
-        //{
-        //    return _connections;
-        //}
     }
 }

@@ -41,51 +41,38 @@ namespace ClinkedIn.Controllers
 
         public ActionResult GetMyEnemiesByUserId(int userId)
         {
-            var listOfConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
-            var listOfUsers = _userRepository.GetUsersById(userId);
-            var enemyNames = new List<string>();
-
-            var listOfMyEnemies = listOfConnections.Where(x => x.UserId1 == userId && !x.IsFriend)
+            var connectionsById = _connectionRepository.GetAllConnectionsByUserId(userId);
+            var allUsers = _userRepository.GetAllUsers();
+\
+            var myEnemies = connectionsById.Where(x => x.UserId1 == userId && !x.IsFriend)
                 .Select(y => y.UserId2)
+                .Join(allUsers,
+                enemy => enemy,
+                user => user.Id,
+                (enemy, user) => new { user.Username }
+                )
                 .ToList();
-            foreach(User user in listOfUsers)
-            {
-                foreach(int enemy in listOfMyEnemies)
-                {
-                    if(user.Id == enemy)
-                    {
-                        enemyNames.Add(user.Username);
-                    }
-                }
-            }
 
-            return Ok(enemyNames);
+            return Ok(myEnemies);
         }
 
         [HttpGet("friends/{userId}")]
 
         public ActionResult GetMyFriendsByUserId(int userId)
         {
-            var listOfConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
-            var listOfUsers = _userRepository.GetUsersById(userId);
-            var friendNames = new List<string>();
+            var myConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
+            var allUsers = _userRepository.GetAllUsers();
 
-            var listOfMyFriends = listOfConnections.Where(x => x.UserId1 == userId && x.IsFriend)
+            var listOfMyFriends = myConnections.Where(x => x.UserId1 == userId && x.IsFriend)
                 .Select(y => y.UserId2)
+                .Join(allUsers,
+                friend => friend,
+                user => user.Id,
+                (friend, user) => new {user.Username}
+                )
                 .ToList();
 
-            foreach (User user in listOfUsers)
-            {
-                foreach (int friend in listOfMyFriends)
-                {
-                    if (user.Id == friend)
-                    {
-                        friendNames.Add(user.Username);
-                    }
-                }
-            }
-
-            return Ok(friendNames);
+            return Ok(listOfMyFriends);
         }
 
         [HttpPost()]
