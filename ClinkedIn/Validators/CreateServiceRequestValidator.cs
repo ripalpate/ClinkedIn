@@ -10,7 +10,8 @@ namespace ClinkedIn.Validators
     {
         public bool Validate(CreateServiceRequest requestToValidate)
         {            
-            return !(string.IsNullOrEmpty(requestToValidate.Name));
+            return !(string.IsNullOrEmpty(requestToValidate.Name)
+                || (double.IsNaN(requestToValidate.Cost)));
         }
 
     }

@@ -8,6 +8,6 @@ namespace ClinkedIn.Models
     public class CreateServiceRequest
     {
         public string Name { get; set; }
-        public decimal Cost { get; set; }
+        public double Cost { get; set; }
     }
 }

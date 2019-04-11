@@ -8,18 +8,30 @@ namespace ClinkedIn.Data
 {
     public class ServiceRepository
     {
-        static List<Service> _services = new List<Service>();
+        public List<Service> _services = new List<Service>
+        {
+            new Service (1,"fun service",3.50),
+            new Service (2,"cleaning",4.50),
+            new Service (3,"mopping",5.50),
+            new Service (4,"sweeping",6.50)
+        };
 
-        public Service AddService(string name, decimal cost)
+        public List<Service> GetServices()
+        {
+            return _services;
+        }
+
+        public Service AddService(string name, double cost)
         {
             var newService = new Service(name, cost);
 
             newService.Id = _services.Count + 1;
 
-            _services.Add(newService);
+            _services.Add(newService);            
 
             return newService;
 
         }
+        
     }
 }

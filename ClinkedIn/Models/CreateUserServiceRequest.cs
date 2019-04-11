@@ -5,15 +5,9 @@ using System.Threading.Tasks;
 
 namespace ClinkedIn.Models
 {
-    public class UserService
+    public class CreateUserServiceRequest
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-
-        public UserService(int id, int userid)
-        {
-            Id = id;
-            UserId = userid;
-        }
     }
 }

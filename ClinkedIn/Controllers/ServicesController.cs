@@ -37,5 +37,28 @@ namespace ClinkedIn.Controllers
             return Created($"api/services/{newService.Id}", newService);
         }
 
+        [HttpGet("getServices")]
+
+        public ActionResult getService(CreateServiceRequest createRequest)
+        {
+            var allServices = _serviceRepository.GetServices();
+            
+            return Ok(_serviceRepository.GetServices());
+            
+        }
+
+        [HttpGet("getServicesByName")]
+
+        public ActionResult getServiceByName(CreateServiceRequest createRequest)
+        {
+            var allServices = _serviceRepository.GetServices();
+
+            var limitedServices = (from service in allServices
+                                   where (service.Name == "cleaning")
+                                   select service).ToList();
+
+            return Ok(limitedServices);
+        }
+
     }
 }
