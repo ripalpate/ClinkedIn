@@ -40,5 +40,13 @@ namespace ClinkedIn.Data
         {
             return _interests;
         }
+
+        public List<Interest> DeleteInterest(int id, int userId)
+        {
+            var x = _interests.Where(interest => interest.Id == id).Where(interest => interest.UserId == userId).ToList();
+            var y =_interests.Remove(x.First());
+
+            return _interests;
+        }
     }
 }
