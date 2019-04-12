@@ -16,6 +16,8 @@ namespace ClinkedIn.Data
             new Connection(3, 2, false, 4),
             new Connection(2, 4, true, 5),
             new Connection(3, 4, true, 6),
+            new Connection(1, 4, true, 7),
+            new Connection(4, 2, true, 8)
         };
 
         public static List<Connection> _allConnections = new List<Connection>();
