@@ -40,18 +40,37 @@ namespace ClinkedIn.Controllers
         }
 
         //GET users with same interests.
-        [HttpGet("getInterests/{interestName}")]
-        public ActionResult getUsersBySameInterest(string interestName)
+        [HttpGet("getInterests/{userId}/{interestName}")]
+        public ActionResult getUsersBySameInterest( int userId, string interestName)
         {
             var listOfUsers = _userRepository.GetAllUsers();
-            var listOfInterests = _interestRepository.GetInterestsList(interestName);
-            var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == interestName);
+            var listOfInterests = _interestRepository.GetInterestsList(userId, interestName);
+            var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName.ToLower() == interestName.ToLower()).Where(interest => interest.UserId != userId).ToList();
             var FriendsThatUserCanMake = listOfUsers
                 .Join(listOfFriendsWithSameInterest, 
                 user => user.Id, 
                 interest => interest.UserId,
                 (user, interest) => new { user.Username, user.DisplayName, interest.InterestName });
             return Ok(FriendsThatUserCanMake);
+        }
+
+        //UPDATE interest
+        [HttpPut]
+        public ActionResult UpdateInterest(UpdateInterestRequest updateInterestRequest)
+        {
+            // var listOfInterests = _interestRepository.GetInterestsWithUsers(userId, interestName);
+             var updatedInterest = _interestRepository.UpdateInterest().Where(interest => interest.Id == updateInterestRequest.Id).Where(interest => interest.UserId == updateInterestRequest.UserId).ToList();
+
+            if (updatedInterest != null)
+            {
+                updatedInterest.First().InterestName = updateInterestRequest.InterestName;
+            }
+            else {
+                return BadRequest(new { error = "users must have an interest name" });
+            }
+
+
+            return Accepted(updatedInterest);
         }
     }
 }

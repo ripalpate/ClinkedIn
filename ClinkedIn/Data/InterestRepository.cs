@@ -9,14 +9,15 @@ namespace ClinkedIn.Data
     public class InterestRepository
     {
         static List<Interest> _interests = new List<Interest> {
-            new Interest(1, "Watch Movies", 1),
-            new Interest(2, "Play Soccer", 1),
+            new Interest(1, "Movies", 1),
+            new Interest(2, "Painting", 1),
             new Interest(3, "Karates", 1),
-            new Interest(4, "Watch Movies", 2),
+            new Interest(4, "Movies", 2),
             new Interest(5, "Gardening", 3),
             new Interest(6, "Karates", 4),
             new Interest(7, "Karates", 5),
-              new Interest(8, "Gardening", 2)
+            new Interest(8, "Gardening", 2),
+            new Interest(9, "Gardening", 5)
     };
 
         public List<Interest> AddInterest(string interestName, int userId)
@@ -29,14 +30,14 @@ namespace ClinkedIn.Data
 
             return _interests;
         }
-        public List<Interest> GetInterestsList(string interestName)
+
+        public List<Interest> GetInterestsList(int userId, string interestName)
         {
-           
             return _interests;
         }
-        public List<Interest> GetAllInterestsList()
-        {
 
+        public List<Interest> UpdateInterest()
+        {
             return _interests;
         }
     }
