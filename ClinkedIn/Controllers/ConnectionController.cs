@@ -43,7 +43,7 @@ namespace ClinkedIn.Controllers
         {
             var connectionsById = _connectionRepository.GetAllConnectionsByUserId(userId);
             var allUsers = _userRepository.GetAllUsers();
-\
+
             var myEnemies = connectionsById.Where(x => x.UserId1 == userId && !x.IsFriend)
                 .Select(y => y.UserId2)
                 .Join(allUsers,
