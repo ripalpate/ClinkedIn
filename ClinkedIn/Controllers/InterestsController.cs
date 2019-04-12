@@ -58,8 +58,8 @@ namespace ClinkedIn.Controllers
         [HttpPut]
         public ActionResult UpdateInterest(UpdateInterestRequest updateInterestRequest)
         {
-            // var listOfInterests = _interestRepository.GetInterestsWithUsers(userId, interestName);
-             var updatedInterest = _interestRepository.UpdateInterest().Where(interest => interest.Id == updateInterestRequest.Id).Where(interest => interest.UserId == updateInterestRequest.UserId).ToList();
+            //filtering interest based on for user and interest Id.
+            var updatedInterest = _interestRepository.UpdateInterest().Where(interest => interest.Id == updateInterestRequest.Id).Where(interest => interest.UserId == updateInterestRequest.UserId).ToList();
 
             if (updatedInterest != null)
             {
