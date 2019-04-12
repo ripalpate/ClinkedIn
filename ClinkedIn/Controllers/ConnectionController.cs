@@ -49,7 +49,7 @@ namespace ClinkedIn.Controllers
                 .Join(allUsers,
                 enemy => enemy,
                 user => user.Id,
-                (enemy, user) => new { user.Username }
+                (enemy, user) => new { user.Username, user.Offense, user.ReleaseDate, user.Id }
                 )
                 .ToList();
 
@@ -68,11 +68,45 @@ namespace ClinkedIn.Controllers
                 .Join(allUsers,
                 friend => friend,
                 user => user.Id,
-                (friend, user) => new {user.Username}
+                (friend, user) => new {user.Username, user.ReleaseDate, user.Offense, user.Id}
                 )
                 .ToList();
 
             return Ok(myFriends);
+        }
+
+        [HttpGet("friendsfriends/{userId}")]
+
+        public ActionResult GetMyFriendsFriendsByUserId(int userId)
+        {
+            var myConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
+            var allUsers = _userRepository.GetAllUsers();
+            var allConnections = _connectionRepository.GetAllConnections();
+            var myFriendsFriends = new List<object>();
+
+            var myFriends = myConnections.Where(connection => connection.UserId1 == userId && connection.IsFriend)
+                .Select(friend => friend.UserId2)
+                .Join(allUsers,
+                friend => friend,
+                user => user.Id,
+                (friend, user) => new { user.Id }
+                )
+                .ToList();
+
+            foreach(var id in myFriends)
+            {
+                var friendsConnections = _connectionRepository.GetAllConnectionsByUserId(id.Id);
+                var myFriendsConnections = friendsConnections.Where(connection => connection.UserId1 == id.Id && connection.IsFriend)
+                .Select(friend => friend.UserId2)
+                .Join(allUsers,
+                friend => friend,
+                user => user.Id,
+                (friend, user) => new { user.Id, user.Username, user.ReleaseDate, user.Offense }
+                )
+                .ToList();
+                myFriendsFriends.Add(myFriendsConnections);
+            }
+            return Ok(myFriendsFriends);
         }
 
         [HttpPost()]
