@@ -63,7 +63,7 @@ namespace ClinkedIn.Controllers
             var myConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
             var allUsers = _userRepository.GetAllUsers();
 
-            var listOfMyFriends = myConnections.Where(x => x.UserId1 == userId && x.IsFriend)
+            var myFriends = myConnections.Where(x => x.UserId1 == userId && x.IsFriend)
                 .Select(y => y.UserId2)
                 .Join(allUsers,
                 friend => friend,
@@ -72,7 +72,7 @@ namespace ClinkedIn.Controllers
                 )
                 .ToList();
 
-            return Ok(listOfMyFriends);
+            return Ok(myFriends);
         }
 
         [HttpPost()]
