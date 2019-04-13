@@ -112,5 +112,12 @@ namespace ClinkedIn.Data
         {
             return _friendsConnections;
         }
+
+        public List<Connection> DeleteConnection(int id, int userId)
+        {
+            var interestToDelete = _connections.Where(connection => connection.Id == id).ToList();
+            var connections = _connections.Remove(interestToDelete.First());
+            return _connections;
+        }
     }
 }

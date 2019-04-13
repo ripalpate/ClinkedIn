@@ -75,5 +75,14 @@ namespace ClinkedIn.Controllers
 
             return Created($"api/connect/{newConnection.Id}", newConnection);
         }
+
+        [HttpDelete("{id}/{userId}")]
+
+        public ActionResult DeleteConnection(int id, int userId)
+        {
+            var connections = _connectionRepository.DeleteConnection(id, userId);
+
+            return Ok(connections);
+        }
     }
 }

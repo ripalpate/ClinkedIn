@@ -17,6 +17,8 @@ namespace ClinkedIn.Data
             new User(5, "Marco Crank", "abc", "sdw", "prostitution", new DateTime(2019, 12, 25, 00, 00, 00))
         };
 
+        static List<User> _user = new List<User>();
+
         public User AddUser(string username, string password, string displayName, string offense)
         {
             var newUser = new User(username, password, displayName, offense);
@@ -30,7 +32,6 @@ namespace ClinkedIn.Data
 
         public List<User> GetAllUsers()
         {
-
             foreach (User user in _users)
             {
                 var timeLeft = GetTimeLeft(user.ReleaseDate);
@@ -41,6 +42,11 @@ namespace ClinkedIn.Data
 
         public List<User> GetUsersById(int userId)
         {
+            foreach (User user in _user)
+            {
+                var timeLeft = GetTimeLeft(user.ReleaseDate);
+                user.TimeLeft = timeLeft;
+            }
             return _users;
         }
 
