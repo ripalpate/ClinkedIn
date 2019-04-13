@@ -26,6 +26,11 @@ namespace ClinkedIn.Controllers
         }
         //GET user with all interests.
         [HttpGet("{userId}")]
+        public ActionResult GetAllInterestsForUser(int userId)
+        {
+            var listOfInterests = _interestRepository.GetAllInterests(userId);
+            return Ok(listOfInterests);
+        }
 
         //CREAT interests for users.
         [HttpPost]

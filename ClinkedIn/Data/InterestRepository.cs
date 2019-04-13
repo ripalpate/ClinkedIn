@@ -33,6 +33,11 @@ namespace ClinkedIn.Data
             return _interests;
         }
 
+        public List<Interest> GetAllInterests(int userId)
+        {
+            var listOfInterests = _interests.Where(interest => interest.UserId == userId).ToList();
+            return listOfInterests;
+        }
         public List<User> GetInterestsList(int userId, string interestName)
         {
             var listOfUsers = _userRepository.GetAllUsers();
