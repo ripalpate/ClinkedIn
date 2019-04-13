@@ -39,11 +39,11 @@ namespace ClinkedIn.Controllers
         //GET all services
         [HttpGet("getServices")]
 
-        public ActionResult getService(CreateServiceRequest createRequest)
+        public ActionResult getService()
         {
             var allServices = _serviceRepository.GetServices();
             
-            return Ok(_serviceRepository.GetServices());
+            return Ok(allServices);
             
         }
         //GET services by name
