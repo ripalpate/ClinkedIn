@@ -62,9 +62,25 @@ namespace ClinkedIn.Controllers
                                        join user in allUsers on userService.UserId equals user.Id
                                        join service in allServices on userService.ServiceId equals service.Id
                                        where (userService.UserId == userId)
-                                       select service.Name);
+                                       select new { user.Id, user.DisplayName, service.Name });
 
             return Ok(limitedUserServices);
+        }
+
+        [HttpGet("getAllUserAndServices")]
+        //GET services by userID
+        public ActionResult getUserServices()
+        {
+            var allUserServices = _userServiceRepository.GetUserServices();
+            var allUsers = _userRepository.GetAllUsers();
+            var allServices = _serviceRepository.GetServices();
+
+            var allUsersAndServices = (from userService in allUserServices
+                                       join user in allUsers on userService.UserId equals user.Id
+                                       join service in allServices on userService.ServiceId equals service.Id
+                                       select new { userService.Id, userService.UserId, user.Username, userService.ServiceId, service.Name, service.Cost});
+
+            return Ok(allUsersAndServices);
         }
 
         //UPDATE service

@@ -10,7 +10,7 @@ namespace ClinkedIn.Data
     {
         public List<Service> _services = new List<Service>
         {
-            new Service (1,"fun service",3.50),
+            new Service (1,"software as a service",3.50),
             new Service (2,"cleaning",4.50),
             new Service (3,"mopping",5.50),
             new Service (4,"sweeping",6.50),
