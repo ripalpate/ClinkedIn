@@ -47,37 +47,35 @@ namespace ClinkedIn.Controllers
             
         }
         //GET services by name
-        [HttpGet("getServicesByName")]
+        [HttpGet("getServicesByName/{serviceName}")]
 
-        public ActionResult getServiceByName(CreateServiceRequest createRequest)
+        public ActionResult getServiceByName(string serviceName)
         {
-            var allServices = _serviceRepository.GetServices();
+            var allServices = _serviceRepository.GetServices();            
 
             var limitedServices = (from service in allServices
-                                   where (service.Name == "cleaning")
+                                   where (service.Name == serviceName)
                                    select service).ToList();
 
             return Ok(limitedServices);
         }
 
         //UPDATE service
-        [HttpPut]
-        public ActionResult UpdateService(UpdateServiceRequest updateServiceRequest)
+        [HttpPut("updateService/{serviceName}/{serviceCost}")]
+        public ActionResult UpdateService(string serviceName, double serviceCost)
         {
-            //filtering service based on for user and service Id.
-            var updatedService = _serviceRepository.UpdateService().Where(service => service.Id == updateServiceRequest.Id).Where(service => service.UserId == updateServiceRequest.UserId).ToList();
+            var listOfServices = _serviceRepository.UpdateService();
 
-            if (updatedService != null)
-            {
-                updatedService.First().serviceName = updateServiceRequest.serviceName;
-            }
-            else
-            {
-                return BadRequest(new { error = "users must have an service name" });
-            }
+            var serviceToUpdate = (from service in listOfServices
+                                  where (service.Name == serviceName)
+                                  select service).SingleOrDefault();
+
+            serviceToUpdate.Cost = serviceCost;
 
 
-            return Accepted(updatedService);
+
+
+            return Accepted(serviceToUpdate);
         }
 
         //[HttpDelete("deleteService")]
