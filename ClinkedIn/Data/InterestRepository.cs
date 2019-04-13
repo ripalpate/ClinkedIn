@@ -35,8 +35,16 @@ namespace ClinkedIn.Data
 
         public List<Interest> GetAllInterests(int userId)
         {
+            var allUsers = _userRepository.GetAllUsers();
             var listOfInterests = _interests.Where(interest => interest.UserId == userId).ToList();
-            return listOfInterests;
+            var userWithInterests = allUsers
+            .Join(listOfInterests, user => user.Id, interest => interest.UserId,
+                (user, interest) => {
+                    user.Interests.Add(interest.InterestName);
+                    return user;
+                })
+                .ToList();
+            return userWithInterests;
         }
         public List<User> GetInterestsList(int userId, string interestName)
         {
