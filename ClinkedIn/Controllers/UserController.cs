@@ -39,7 +39,7 @@ namespace ClinkedIn.Controllers
             var listOfUsers = _userRepository.GetUsersById(userId).Where(x => x.Id == userId).ToList();
 
             return Ok(listOfUsers);
-        }
+        } 
 
         [HttpPost("register")]
 
