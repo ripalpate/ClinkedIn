@@ -30,28 +30,16 @@ namespace ClinkedIn.Controllers
 
         public ActionResult GetAllConnectionsByUserId(int userId)
         {
-            var listOfConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
+            var myConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
 
-            var listOfMyConnections = listOfConnections.Where(x => x.UserId1 == userId).ToList();
-
-            return Ok(listOfMyConnections);
+            return Ok(myConnections);
         }
 
         [HttpGet("enemies/{userId}")]
 
         public ActionResult GetMyEnemiesByUserId(int userId)
         {
-            var connectionsById = _connectionRepository.GetAllConnectionsByUserId(userId);
-            var allUsers = _userRepository.GetAllUsers();
-
-            var myEnemies = connectionsById.Where(x => x.UserId1 == userId && !x.IsFriend)
-                .Select(y => y.UserId2)
-                .Join(allUsers,
-                enemy => enemy,
-                user => user.Id,
-                (enemy, user) => new { user.Username, user.Offense, user.ReleaseDate, user.Id }
-                )
-                .ToList();
+            var myEnemies = _connectionRepository.GetMyEnemiesByUserId(userId);
 
             return Ok(myEnemies);
         }
@@ -60,17 +48,7 @@ namespace ClinkedIn.Controllers
 
         public ActionResult GetMyFriendsByUserId(int userId)
         {
-            var myConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
-            var allUsers = _userRepository.GetAllUsers();
-
-            var myFriends = myConnections.Where(x => x.UserId1 == userId && x.IsFriend)
-                .Select(y => y.UserId2)
-                .Join(allUsers,
-                friend => friend,
-                user => user.Id,
-                (friend, user) => new {user.Username, user.ReleaseDate, user.Offense, user.Id}
-                )
-                .ToList();
+            var myFriends = _connectionRepository.GetMyFriendsByUserId(userId);
 
             return Ok(myFriends);
         }
@@ -79,33 +57,8 @@ namespace ClinkedIn.Controllers
 
         public ActionResult GetMyFriendsFriendsByUserId(int userId)
         {
-            var myConnections = _connectionRepository.GetAllConnectionsByUserId(userId);
-            var allUsers = _userRepository.GetAllUsers();
-            var allConnections = _connectionRepository.GetAllConnections();
-            var myFriendsFriends = new List<object>();
+            var myFriendsFriends = _connectionRepository.GetMyFriendsFriendsByUserId(userId);
 
-            var myFriends = myConnections.Where(connection => connection.UserId1 == userId && connection.IsFriend)
-                .Select(friend => friend.UserId2)
-                .Join(allUsers,
-                friend => friend,
-                user => user.Id,
-                (friend, user) => new { user.Id }
-                )
-                .ToList();
-
-            foreach(var id in myFriends)
-            {
-                var friendsConnections = _connectionRepository.GetAllConnectionsByUserId(id.Id);
-                var myFriendsConnections = friendsConnections.Where(connection => connection.UserId1 == id.Id && connection.IsFriend)
-                .Select(friend => friend.UserId2)
-                .Join(allUsers,
-                friend => friend,
-                user => user.Id,
-                (friend, user) => new { user.Id, user.Username, user.ReleaseDate, user.Offense }
-                )
-                .ToList();
-                myFriendsFriends.Add(myFriendsConnections);
-            }
             return Ok(myFriendsFriends);
         }
 

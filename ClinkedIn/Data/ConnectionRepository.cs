@@ -8,6 +8,8 @@ namespace ClinkedIn.Data
 {
     public class ConnectionRepository
     {
+        UserRepository _userRepository = new UserRepository();
+
         public static List<Connection> _connections = new List<Connection>
         {
             new Connection(1, 2, false, 1),
@@ -36,7 +38,65 @@ namespace ClinkedIn.Data
 
         public List<Connection> GetAllConnectionsByUserId(int userId)
         {
-            return _connections;
+           var myConnections = _connections.Where(x => x.UserId1 == userId).ToList();
+
+            return myConnections;
+        }
+
+        public List<User> GetMyEnemiesByUserId(int userId)
+        {
+            var myConnections = GetAllConnectionsByUserId(userId);
+            var allUsers = _userRepository.GetAllUsers();
+
+            var myEnemies = myConnections.Where(x => x.UserId1 == userId && !x.IsFriend)
+                .Select(y => y.UserId2)
+                .Join(allUsers,
+                enemy => enemy,
+                user => user.Id,
+                (enemy, user) => new User (user.Username, user.Offense, user.ReleaseDate, user.Id)
+                )
+                .ToList();
+
+            return myEnemies;
+        }
+
+        public List<User> GetMyFriendsByUserId(int userId)
+        {
+            var myConnections = GetAllConnectionsByUserId(userId);
+            var allUsers = _userRepository.GetAllUsers();
+
+            var myFriends = myConnections.Where(x => x.UserId1 == userId && x.IsFriend)
+                .Select(y => y.UserId2)
+                .Join(allUsers,
+                friend => friend, 
+                user => user.Id,
+                (enemy, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id)
+                )
+                .ToList();
+
+            return myFriends;
+        }
+
+        public List<User> GetMyFriendsFriendsByUserId(int userId)
+        {
+            var myFriends = GetMyFriendsByUserId(userId);
+            var allUsers = _userRepository.GetAllUsers();
+            var myFriendsFriends = new List<User>();
+
+            foreach (var id in myFriends)
+            {
+                var connections = GetAllConnectionsByUserId(id.Id);
+                var myFriendsConnections = connections.Where(connection => connection.UserId1 == id.Id && userId != connection.UserId2 && connection.IsFriend)
+                .Select(friend => friend.UserId2)
+                .Join(allUsers,
+                friend => friend,
+                user => user.Id,
+                (friend, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id)
+                )
+                .SingleOrDefault();
+                myFriendsFriends.Add(myFriendsConnections);
+            }
+            return myFriendsFriends;
         }
 
         public List<Connection> GetAllConnections()
