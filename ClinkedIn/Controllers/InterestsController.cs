@@ -40,18 +40,31 @@ namespace ClinkedIn.Controllers
         }
 
         //GET users with same interests.
-        [HttpGet("getInterests/{interestName}")]
-        public ActionResult getUsersBySameInterest(string interestName)
+        [HttpGet("getInterests/{userId}/{interestName}")]
+        public ActionResult getUsersBySameInterest( int userId, string interestName)
         {
-            var listOfUsers = _userRepository.GetAllUsers();
-            var listOfInterests = _interestRepository.GetInterestsList(interestName);
-            var listOfFriendsWithSameInterest = listOfInterests.Where(interest => interest.InterestName == interestName);
-            var FriendsThatUserCanMake = listOfUsers
-                .Join(listOfFriendsWithSameInterest, 
-                user => user.Id, 
-                interest => interest.UserId,
-                (user, interest) => new { user.Username, user.DisplayName, interest.InterestName });
-            return Ok(FriendsThatUserCanMake);
+            var listOfFriendsWithSameInterest = _interestRepository.GetInterestsList(userId, interestName);
+            return Ok(listOfFriendsWithSameInterest);
+        }
+
+        //UPDATE interest
+        [HttpPut]
+        public ActionResult UpdateInterest(UpdateInterestRequest updateInterestRequest)
+        {
+            if (updateInterestRequest == null)
+            {
+                return BadRequest(new { error = "users must have an interest name" });
+            }
+            var updatedInterest = _interestRepository.UpdateInterest(updateInterestRequest.Id, updateInterestRequest.UserId, updateInterestRequest.InterestName);
+            return Ok(updatedInterest);
+        }
+
+        //DELETE interest
+        [HttpDelete("{id}/{userId}")]
+        public ActionResult DeleteInterest(int id, int userId)
+        { 
+            var interestsListAfterDeletion = _interestRepository.DeleteInterest(id, userId);
+            return Ok(interestsListAfterDeletion);
         }
     }
 }
