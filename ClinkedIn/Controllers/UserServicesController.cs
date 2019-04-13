@@ -69,5 +69,23 @@ namespace ClinkedIn.Controllers
             return Ok(limitedUserServices);
         }
 
+        //UPDATE service
+        [HttpPut("updateUserService/{userServiceId}/{serviceId}")]
+        public ActionResult UpdateUserService(int userServiceId, int serviceId)
+        {
+            var listOfUserServices = _userServiceRepository.UpdateUserService();
+
+            var userServiceToUpdate = (from userService in listOfUserServices
+                                   where (userService.Id == userServiceId)
+                                   select userService).SingleOrDefault();
+
+            userServiceToUpdate.ServiceId = serviceId;
+
+
+
+
+            return Accepted(userServiceToUpdate);
+        }
+
     }
 }

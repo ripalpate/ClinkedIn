@@ -31,5 +31,12 @@ namespace ClinkedIn.Data
 
         }
 
+
+        public List<UserService> UpdateUserService()
+        {
+            return _userServices;
+        }
+
+
     }
 }
