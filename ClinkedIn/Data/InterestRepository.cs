@@ -45,12 +45,12 @@ namespace ClinkedIn.Data
                 interest => interest.UserId,
                 (user, interest) => new User(user.Id, user.Username, user.DisplayName))
                 .Join(_interests, user => user.Id, interest => interest.UserId, 
-                (u,i)  => {
-                    u.Interests.Add(i.InterestName);
-                    return u;
+                (user,interest)  => {
+                    user.Interests.Add(interest.InterestName);
+                    return user;
                 })
                 .ToList();
-            return FriendsThatUserCanMake;
+            return FriendsThatUserCanMake.Distinct().ToList();
         }
 
         public List<Interest> UpdateInterest(int id, int userId, string interestName)
