@@ -60,6 +60,26 @@ namespace ClinkedIn.Controllers
             return Ok(limitedServices);
         }
 
+        //UPDATE service
+        [HttpPut]
+        public ActionResult UpdateService(UpdateServiceRequest updateServiceRequest)
+        {
+            //filtering service based on for user and service Id.
+            var updatedService = _serviceRepository.UpdateService().Where(service => service.Id == updateServiceRequest.Id).Where(service => service.UserId == updateServiceRequest.UserId).ToList();
+
+            if (updatedService != null)
+            {
+                updatedService.First().serviceName = updateServiceRequest.serviceName;
+            }
+            else
+            {
+                return BadRequest(new { error = "users must have an service name" });
+            }
+
+
+            return Accepted(updatedService);
+        }
+
         //[HttpDelete("deleteService")]
 
     }
