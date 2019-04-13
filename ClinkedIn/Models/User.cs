@@ -24,13 +24,14 @@ namespace ClinkedIn.Models
                 Offense = offense;
             }
 
-        public User(int id, string username, string password, string displayName, string offense)
+        public User(int id, string username, string password, string displayName, string offense, DateTime releaseDate)
         {
             Id = id;
             Username = username;
             Password = password;
             DisplayName = displayName;
             Offense = offense;
+            ReleaseDate = releaseDate;
         }
 
         public User(int id, string userName, string displayName)
