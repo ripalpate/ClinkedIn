@@ -33,6 +33,11 @@ namespace ClinkedIn.Data
             return newService;
 
         }
-        
+
+        public List<Service> UpdateService()
+        {
+            return _services;
+        }
+
     }
 }
