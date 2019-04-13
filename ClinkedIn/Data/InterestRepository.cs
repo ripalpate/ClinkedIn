@@ -8,6 +8,8 @@ namespace ClinkedIn.Data
 {
     public class InterestRepository
     {
+        UserRepository  _userRepository = new UserRepository();
+
         static List<Interest> _interests = new List<Interest> {
             new Interest(1, "Movies", 1),
             new Interest(2, "Painting", 1),
@@ -31,22 +33,43 @@ namespace ClinkedIn.Data
             return _interests;
         }
 
-        public List<Interest> GetInterestsList(int userId, string interestName)
+        public List<User> GetInterestsList(int userId, string interestName)
         {
-            return _interests;
+            var listOfUsers = _userRepository.GetAllUsers();
+            var listOfFriendsWithSameInterest = _interests
+                .Where(interest => interest.InterestName.ToLower() == interestName.ToLower())
+                .Where(interest => interest.UserId != userId).ToList();
+            var FriendsThatUserCanMake = listOfUsers
+                .Join(listOfFriendsWithSameInterest,
+                user => user.Id,
+                interest => interest.UserId,
+                (user, interest) => new User(user.Id, user.Username, user.DisplayName))
+                .Join(_interests, user => user.Id, interest => interest.UserId, 
+                (u,i)  => {
+                    u.Interests.Add(i.InterestName);
+                    return u;
+                })
+                .ToList();
+            return FriendsThatUserCanMake;
         }
 
-        public List<Interest> UpdateInterest()
+        public List<Interest> UpdateInterest(int id, int userId, string interestName)
         {
-            return _interests;
+            //filtering interest based on user id and interest Id.
+            var updatedInterest = _interests
+                .Where(interest => interest.Id == id)
+                .Where(interest => interest.UserId == userId).ToList();
+
+            updatedInterest.First().InterestName = interestName;
+            return updatedInterest;
         }
 
         public List<Interest> DeleteInterest(int id, int userId)
         {
-            var x = _interests.Where(interest => interest.Id == id).Where(interest => interest.UserId == userId).ToList();
-            var y =_interests.Remove(x.First());
-
-            return _interests;
+            var FilterInterstToDelete = _interests.Where(interest => interest.Id == id).Where(interest => interest.UserId == userId).ToList();
+            var InterestToDelete =_interests.Remove(FilterInterstToDelete.First());
+            var remainingInterestsforUser = _interests.Where(x => x.UserId == userId).ToList();
+            return remainingInterestsforUser;
         }
     }
 }

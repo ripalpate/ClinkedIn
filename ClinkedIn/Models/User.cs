@@ -14,6 +14,7 @@ namespace ClinkedIn.Models
         public DateTime ReleaseDate { get; set; }
         public int Wallet { get; set; }
         public string Offense { get; set; }
+        public List<string> Interests { get; set; } = new List<string>();
 
         public User(string username, string password, string displayName, string offense)
             {
@@ -30,6 +31,13 @@ namespace ClinkedIn.Models
             Password = password;
             DisplayName = displayName;
             Offense = offense;
+        }
+
+        public User(int id,string userName, string displayName)
+        {
+            Id = id;
+            Username = userName;
+            DisplayName = displayName;
         }
     }
 }
