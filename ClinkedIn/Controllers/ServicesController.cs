@@ -24,7 +24,7 @@ namespace ClinkedIn.Controllers
         }
 
         [HttpPost("service")]
-
+        //POST to add services
         public ActionResult AddService(CreateServiceRequest createRequest)
         {
             if (!_validator.Validate(createRequest))
@@ -36,7 +36,7 @@ namespace ClinkedIn.Controllers
 
             return Created($"api/services/{newService.Id}", newService);
         }
-
+        //GET all services
         [HttpGet("getServices")]
 
         public ActionResult getService(CreateServiceRequest createRequest)
@@ -46,7 +46,7 @@ namespace ClinkedIn.Controllers
             return Ok(_serviceRepository.GetServices());
             
         }
-
+        //GET services by name
         [HttpGet("getServicesByName")]
 
         public ActionResult getServiceByName(CreateServiceRequest createRequest)
@@ -60,7 +60,7 @@ namespace ClinkedIn.Controllers
             return Ok(limitedServices);
         }
 
-        //[HttpDelete()]
+        //[HttpDelete("deleteService")]
 
     }
 }

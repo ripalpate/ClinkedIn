@@ -41,7 +41,7 @@ namespace ClinkedIn.Controllers
         }
 
         [HttpGet("getUserServices")]
-
+        //GET data from userServices (helps with figuring out what ID's to use in the below GET) 
         public ActionResult getUserService(CreateUserServiceRequest createRequest)
         {
             var allServices = _userServiceRepository.GetUserServices();
@@ -51,7 +51,7 @@ namespace ClinkedIn.Controllers
         }
 
         [HttpGet("getUserServicesById")]
-
+        //GET services by userID
         public ActionResult getUserServiceByName(int userId)
         {
             var allUserServices = _userServiceRepository.GetUserServices();
