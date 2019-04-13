@@ -33,11 +33,19 @@ namespace ClinkedIn.Models
             Offense = offense;
         }
 
-        public User(int id,string userName, string displayName)
+        public User(int id, string userName, string displayName)
         {
             Id = id;
             Username = userName;
             DisplayName = displayName;
+        }
+
+        public User(string username, string offense, DateTime releaseDate, int id)
+        {
+            Id = id;
+            Username = username;
+            ReleaseDate = releaseDate;
+            Offense = offense;
         }
     }
 }
