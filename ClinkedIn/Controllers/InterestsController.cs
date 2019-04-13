@@ -24,6 +24,8 @@ namespace ClinkedIn.Controllers
             _interestRepository = new InterestRepository();
             _userRepository = new UserRepository();
         }
+        //GET user with all interests.
+        [HttpGet("{userId}")]
 
         //CREAT interests for users.
         [HttpPost]
