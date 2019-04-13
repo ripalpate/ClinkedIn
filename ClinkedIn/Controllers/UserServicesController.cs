@@ -50,9 +50,9 @@ namespace ClinkedIn.Controllers
 
         }
 
-        [HttpGet("getUserServicesById")]
+        [HttpGet("getUserServicesById/{userId}")]
         //GET services by userID
-        public ActionResult getUserServiceByName(int userId)
+        public ActionResult getUserServices(int userId)
         {
             var allUserServices = _userServiceRepository.GetUserServices();
             var allUsers = _userRepository.GetAllUsers();
@@ -62,7 +62,7 @@ namespace ClinkedIn.Controllers
                                        join service in allServices on
                                         (from userService in allUserServices
                                          join user in allUsers on userService.UserId equals user.Id
-                                         where (userService.UserId == 2)
+                                         where (userService.UserId == userId)
                                          select userService.ServiceId).SingleOrDefault() equals service.Id
                                        select service.Name).Distinct();
 
