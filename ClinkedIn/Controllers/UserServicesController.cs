@@ -64,7 +64,7 @@ namespace ClinkedIn.Controllers
                                          join user in allUsers on userService.UserId equals user.Id
                                          where (userService.UserId == 2)
                                          select userService.ServiceId).SingleOrDefault() equals service.Id
-                                       select service.Name);
+                                       select service.Name).Distinct();
 
             return Ok(limitedUserServices);
         }
