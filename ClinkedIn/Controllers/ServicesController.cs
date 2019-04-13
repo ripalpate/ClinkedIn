@@ -78,7 +78,12 @@ namespace ClinkedIn.Controllers
             return Accepted(serviceToUpdate);
         }
 
-        //[HttpDelete("deleteService")]
+        [HttpDelete("{id}")]
+        public ActionResult DeleteService(int id)
+        {
+            var servicesListAfterDeletion = _serviceRepository.DeleteService(id);
+            return Ok(servicesListAfterDeletion);
+        }
 
     }
 }

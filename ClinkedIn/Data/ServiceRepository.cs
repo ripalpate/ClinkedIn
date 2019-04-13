@@ -39,5 +39,21 @@ namespace ClinkedIn.Data
             return _services;
         }
 
+        public List<Service> DeleteService(int id)
+        {
+            var listOfServices = _services;
+
+            var serviceToBeRemoved = (from service in listOfServices
+              where (service.Id == id)
+                select service).ToList();
+
+            _services.Remove(serviceToBeRemoved.First());
+
+            var remainingServices = _services.ToList();
+
+            return remainingServices;
+
+        }
+
     }
 }

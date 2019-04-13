@@ -58,13 +58,11 @@ namespace ClinkedIn.Controllers
             var allUsers = _userRepository.GetAllUsers();
             var allServices = _serviceRepository.GetServices();
 
-            var limitedUserServices = (from userServices in allUserServices
-                                       join service in allServices on
-                                        (from userService in allUserServices
-                                         join user in allUsers on userService.UserId equals user.Id
-                                         where (userService.UserId == userId)
-                                         select userService.ServiceId).SingleOrDefault() equals service.Id
-                                       select service.Name).Distinct();
+            var limitedUserServices = (from userService in allUserServices
+                                       join user in allUsers on userService.UserId equals user.Id
+                                       join service in allServices on userService.ServiceId equals service.Id
+                                       where (userService.UserId == userId)
+                                       select service.Name);
 
             return Ok(limitedUserServices);
         }
@@ -85,6 +83,13 @@ namespace ClinkedIn.Controllers
 
 
             return Accepted(userServiceToUpdate);
+        }
+        //DELETE userService
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUserService(int id)
+        {
+            var userServicesListAfterDeletion = _userServiceRepository.DeleteUserService(id);
+            return Ok(userServicesListAfterDeletion);
         }
 
     }
