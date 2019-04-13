@@ -12,14 +12,14 @@ namespace ClinkedIn.Data
 
         public static List<Connection> _connections = new List<Connection>
         {
-            new Connection(1, 2, false, 1),
+            new Connection(1, 2, true, 1),
             new Connection(1, 3, true, 2),
             new Connection(2, 1, false, 3),
             new Connection(3, 2, false, 4),
             new Connection(2, 4, true, 5),
             new Connection(3, 4, true, 6),
             new Connection(1, 4, true, 7),
-            new Connection(4, 2, true, 8)
+            new Connection(4, 2, true, 8),
         };
 
         public static List<Connection> _allConnections = new List<Connection>();
@@ -68,7 +68,7 @@ namespace ClinkedIn.Data
             var myFriends = myConnections.Where(x => x.UserId1 == userId && x.IsFriend)
                 .Select(y => y.UserId2)
                 .Join(allUsers,
-                friend => friend, 
+                friend => friend,
                 user => user.Id,
                 (enemy, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id)
                 )
@@ -86,7 +86,7 @@ namespace ClinkedIn.Data
             foreach (var id in myFriends)
             {
                 var connections = GetAllConnectionsByUserId(id.Id);
-                var myFriendsConnections = connections.Where(connection => connection.UserId1 == id.Id && userId != connection.UserId2 && connection.IsFriend)
+                var myFriendsFriend = connections.Where(connection => connection.UserId1 == id.Id && userId != connection.UserId2 && connection.IsFriend)
                 .Select(friend => friend.UserId2)
                 .Join(allUsers,
                 friend => friend,
@@ -94,7 +94,11 @@ namespace ClinkedIn.Data
                 (friend, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id)
                 )
                 .SingleOrDefault();
-                myFriendsFriends.Add(myFriendsConnections);
+                var friendExistsNot = myFriendsFriends.Any(f => f.Id == myFriendsFriend.Id);
+                if (!friendExistsNot)
+                {
+                    myFriendsFriends.Add(myFriendsFriend);
+                }
             }
             return myFriendsFriends;
         }
