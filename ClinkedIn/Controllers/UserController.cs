@@ -36,9 +36,9 @@ namespace ClinkedIn.Controllers
 
         public ActionResult GetUsersById(int userId)
         {
-            var listOfUsers = _userRepository.GetUsersById(userId).Where(x => x.Id == userId).ToList();
+            var _user = _userRepository.GetUsersById(userId).Where(x => x.Id == userId).ToList();
 
-            return Ok(listOfUsers);
+            return Ok(_user);
         } 
 
         [HttpPost("register")]
