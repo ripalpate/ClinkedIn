@@ -17,6 +17,8 @@ namespace ClinkedIn.Data
             new User(5, "Marco Crank", "abc", "sdw", "prostitution", new DateTime(2019, 12, 25, 00, 00, 00))
         };
 
+        static List<User> _user = new List<User>();
+
         public User AddUser(string username, string password, string displayName, string offense)
         {
             var newUser = new User(username, password, displayName, offense);
