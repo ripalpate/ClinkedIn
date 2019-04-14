@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ClinkedIn.Models
 {
-    public class UpdateContactRequest
+    public class UpdateConcectionRequest
     {
         public int UserId1 { get; set; }
         public int UserId2 { get; set; }

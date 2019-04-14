@@ -85,7 +85,7 @@ namespace ClinkedIn.Controllers
             return Created($"api/connect/{newConnection.Id}", newConnection);
         }
 
-        [HttpDelete("{id}/{userId}")]
+        [HttpDelete("{id}")]
 
         public ActionResult DeleteConnection(int id, int userId)
         {
@@ -94,16 +94,16 @@ namespace ClinkedIn.Controllers
             return Ok(connections);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
 
-        public ActionResult EditConnection(UpdateContactRequest connectionToEdit)
+        public ActionResult EditConnection(UpdateConcectionRequest connectionToEdit, int id)
         {
             var editedConnection = _connectionRepository.EditConnection(connectionToEdit.UserId1, 
                                                                     connectionToEdit.UserId2,
                                                                     connectionToEdit.IsFriend,
                                                                     connectionToEdit.Id);
 
-            return Ok(editedConnection);
+            return Ok();
         }
     }
 }
