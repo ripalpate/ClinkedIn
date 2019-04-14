@@ -36,5 +36,13 @@ namespace ClinkedIn.Controllers
 
             return Created($"api/warden/{newWarden.Id}", newWarden);
         }
+
+        [HttpGet("users")]
+
+        public ActionResult AllUsers()
+        {
+            var users = _wardenRepository.GetAllUsers();
+            return Ok(users);
+        }
     }
 }

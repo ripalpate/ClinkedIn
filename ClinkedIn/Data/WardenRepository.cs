@@ -9,6 +9,9 @@ namespace ClinkedIn.Data
     public class WardenRepository
     {
         static List<Warden> _wardens = new List<Warden>();
+
+        UserRepository _userRepository = new UserRepository();
+
         public Warden AddWarden(string username, string password)
         {
             var newWarden = new Warden(username, password);
@@ -19,5 +22,12 @@ namespace ClinkedIn.Data
 
             return newWarden;
         }
+
+        public List<User> GetAllUsers()
+        {
+            var allUsers = _userRepository.GetAllUsers();
+            return allUsers;
+        }
+
     }
 }
