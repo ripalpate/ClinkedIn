@@ -8,6 +8,7 @@ namespace ClinkedIn.Data
 {
     public class UserRepository
     {
+
         static List<User> _users = new List<User>
         {
             new User(1, "Shane Wilson", "abc", "sdw", "murder"),
