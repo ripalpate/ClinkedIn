@@ -56,11 +56,11 @@ namespace ClinkedIn.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateInterest(UpdateUserRequest updateUserRequest)
+        public ActionResult UpdateUser(UpdateUserRequest updateUserRequest)
         {
             if (updateUserRequest == null)
             {
-                return BadRequest(new { error = "users must have an interest name" });
+                return BadRequest(new { error = "Please provide necessary information" });
             }
             var updatedUser = _userRepository.UpdateUser(
                 updateUserRequest.Id, 
