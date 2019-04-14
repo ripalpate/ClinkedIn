@@ -15,6 +15,7 @@ namespace ClinkedIn.Models
         public int Wallet { get; set; }
         public string Offense { get; set; }
         public List<string> Interests { get; set; } = new List<string>();
+        public TimeSpan TimeLeft { get; set; }
 
         public User(string username, string password, string displayName, string offense)
             {
@@ -24,13 +25,14 @@ namespace ClinkedIn.Models
                 Offense = offense;
             }
 
-        public User(int id, string username, string password, string displayName, string offense)
+        public User(int id, string username, string password, string displayName, string offense, DateTime releaseDate)
         {
             Id = id;
             Username = username;
             Password = password;
             DisplayName = displayName;
             Offense = offense;
+            ReleaseDate = releaseDate;
         }
 
         public User(int id, string userName, string displayName)
