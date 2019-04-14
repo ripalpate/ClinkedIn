@@ -41,7 +41,9 @@ namespace ClinkedIn.Data
 
         public List<User> GetUsersById(int userId)
         {
-            return _users;
+            var singleUser = _users.Where(x => x.Id == userId).ToList();
+
+            return _user;
         }
 
         public TimeSpan GetTimeLeft(DateTime releaseDate)
