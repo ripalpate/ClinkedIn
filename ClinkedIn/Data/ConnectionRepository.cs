@@ -22,7 +22,7 @@ namespace ClinkedIn.Data
             new Connection(4, 2, true, 8),
         };
 
-        public static List<Connection> _allConnections = new List<Connection>();
+        public static List<Connection> _myConnections = new List<Connection>();
         public static List<Connection> _friendsConnections = new List<Connection>();
 
         public Connection AddConnection(int userId1, int userId2, bool isFriend)
@@ -105,7 +105,7 @@ namespace ClinkedIn.Data
 
         public List<Connection> GetAllConnections()
         {
-            return _allConnections;
+            return _connections;
         }
 
         public List<Connection> GetFriendsConnectionsByUserId(int userId)
@@ -115,9 +115,17 @@ namespace ClinkedIn.Data
 
         public List<Connection> DeleteConnection(int id, int userId)
         {
-            var interestToDelete = _connections.Where(connection => connection.Id == id).ToList();
-            var connections = _connections.Remove(interestToDelete.First());
+            var connectionToDelete = _connections.Where(connection => connection.Id == id).ToList();
+            var connections = _connections.Remove(connectionToDelete.First());
             return _connections;
+        }
+
+        public List<Connection> EditConnection(int userId1, int userId2, bool isFriend, int id)
+        {
+            var connectionToEdit = _connections.Where(connection => connection.Id == id).ToList();
+            connectionToEdit.First().IsFriend = isFriend;
+    
+            return connectionToEdit;
         }
     }
 }
