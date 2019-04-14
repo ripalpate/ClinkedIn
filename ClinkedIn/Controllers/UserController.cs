@@ -54,5 +54,22 @@ namespace ClinkedIn.Controllers
 
             return Created($"api/users/{newUser.Id}", newUser);
         }
+
+        [HttpPut]
+        public ActionResult UpdateInterest(UpdateUserRequest updateUserRequest)
+        {
+            if (updateUserRequest == null)
+            {
+                return BadRequest(new { error = "users must have an interest name" });
+            }
+            var updatedUser = _userRepository.UpdateUser(
+                updateUserRequest.Id, 
+                updateUserRequest.UserName, 
+                updateUserRequest.Password,
+                updateUserRequest.DisplayName,
+                updateUserRequest.Offense,
+                updateUserRequest.Wallet);
+            return Ok(updatedUser);
+        }
     }
 }

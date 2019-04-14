@@ -43,5 +43,18 @@ namespace ClinkedIn.Data
             var user = _users.Where(x => x.Id == userId).ToList();
             return user;
         }
+
+        public List<User> UpdateUser(int userId, string userName, string password, string displayName, string offense, int wallet)
+        {
+            var updatedUser = _users
+                .Where(user => user.Id == userId).ToList();
+
+            updatedUser.First().Username = userName;
+            updatedUser.First().Password = password;
+            updatedUser.First().DisplayName = displayName;
+            updatedUser.First().Offense = offense;
+            updatedUser.First().Wallet = wallet;
+            return updatedUser;
+        }
     }
 }
