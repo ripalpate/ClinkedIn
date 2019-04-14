@@ -103,7 +103,7 @@ namespace ClinkedIn.Controllers
                                                                     connectionToEdit.IsFriend,
                                                                     connectionToEdit.Id);
 
-            return Ok();
+            return Ok(editedConnection);
         }
     }
 }
