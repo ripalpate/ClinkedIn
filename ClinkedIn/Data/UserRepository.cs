@@ -37,5 +37,11 @@ namespace ClinkedIn.Data
         {
             return _users;
         }
+
+        public List<User> GetUser(int userId)
+        {
+            var user = _users.Where(x => x.Id == userId).ToList();
+            return user;
+        }
     }
 }

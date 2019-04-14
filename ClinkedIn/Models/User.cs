@@ -47,5 +47,10 @@ namespace ClinkedIn.Models
             ReleaseDate = releaseDate;
             Offense = offense;
         }
+
+        public User(List<string> interests)
+        {
+            Interests = interests;
+        }
     }
 }
