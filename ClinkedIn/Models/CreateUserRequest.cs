@@ -11,5 +11,6 @@ namespace ClinkedIn.Models
         public string Password { get; set; }
         public string DisplayName { get; set; }
         public string Offense { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }
