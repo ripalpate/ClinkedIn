@@ -50,9 +50,26 @@ namespace ClinkedIn.Controllers
                 return BadRequest(new { error = "users must have a username, password and display name" });
             }
 
-            var newUser = _userRepository.AddUser(createRequest.Username, createRequest.Password, createRequest.DisplayName, createRequest.Offense);
+            var newUser = _userRepository.AddUser(createRequest.Username, createRequest.Password, createRequest.DisplayName, createRequest.Offense, createRequest.ReleaseDate);
 
             return Created($"api/users/{newUser.Id}", newUser);
+        }
+
+        [HttpPut]
+        public ActionResult UpdateUser(UpdateUserRequest updateUserRequest)
+        {
+            if (updateUserRequest == null)
+            {
+                return BadRequest(new { error = "Please provide necessary information" });
+            }
+            var updatedUser = _userRepository.UpdateUser(
+                updateUserRequest.Id, 
+                updateUserRequest.UserName, 
+                updateUserRequest.Password,
+                updateUserRequest.DisplayName,
+                updateUserRequest.Offense,
+                updateUserRequest.Wallet);
+            return Ok(updatedUser);
         }
     }
 }

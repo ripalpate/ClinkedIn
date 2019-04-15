@@ -33,6 +33,16 @@ namespace ClinkedIn.Data
             return _interests;
         }
 
+        public User GetAllInterests(int userId)
+        {
+            var User = _userRepository.GetUsersById(userId);
+            var listOfInterests = _interests.Where(interest => interest.UserId == userId).Select(interest => interest.InterestName).ToList();
+            string stringOfInterests = string.Join(",", listOfInterests.ToArray());
+            User.First().Interests.Clear();
+            User.First().Interests.Add(stringOfInterests);
+            var finalUser = User.First(); 
+            return finalUser;
+        }
         public List<User> GetInterestsList(int userId, string interestName)
         {
             var listOfUsers = _userRepository.GetAllUsers();
@@ -66,10 +76,17 @@ namespace ClinkedIn.Data
 
         public List<Interest> DeleteInterest(int id, int userId)
         {
-            var FilterInterstToDelete = _interests.Where(interest => interest.Id == id).Where(interest => interest.UserId == userId).ToList();
-            var InterestToDelete =_interests.Remove(FilterInterstToDelete.First());
-            var remainingInterestsforUser = _interests.Where(x => x.UserId == userId).ToList();
-            return remainingInterestsforUser;
+            var FilterInterstToDelete = _interests
+                .Where(interest => interest.Id == id)
+                .Where(interest => interest.UserId == userId).ToList();
+            var deletedInterest=_interests.Remove(FilterInterstToDelete.First());
+            var remainingInterests = _interests.Where(x => x.UserId == userId).ToList();
+            return remainingInterests;
+        }
+
+        public List<Interest> AllInterests()
+        {
+            return _interests;
         }
     }
 }

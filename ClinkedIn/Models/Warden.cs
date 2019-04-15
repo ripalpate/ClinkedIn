@@ -5,12 +5,16 @@ using System.Threading.Tasks;
 
 namespace ClinkedIn.Models
 {
-    public class CreateUserRequest
+    public class Warden
     {
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string DisplayName { get; set; }
-        public string Offense { get; set; }
-        public DateTime ReleaseDate { get; set; }
+
+        public Warden(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
     }
 }
