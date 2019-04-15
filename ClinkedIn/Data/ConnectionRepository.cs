@@ -53,7 +53,7 @@ namespace ClinkedIn.Data
                 .Join(allUsers,
                 enemy => enemy,
                 user => user.Id,
-                (enemy, user) => new User (user.Username, user.Offense, user.ReleaseDate, user.Id, user.TimeLeft)
+                (enemy, user) => new User (user.Username, user.Offense, user.ReleaseDate, user.Id, user.TimeLeft, user.Interests)
                 )
                 .ToList();
 
@@ -70,7 +70,7 @@ namespace ClinkedIn.Data
                 .Join(allUsers,
                 friend => friend,
                 user => user.Id,
-                (enemy, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id, user.TimeLeft)
+                (enemy, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id, user.TimeLeft, user.Interests)
                 )
                 .ToList();
 
@@ -91,7 +91,7 @@ namespace ClinkedIn.Data
                 .Join(allUsers,
                 friend => friend,
                 user => user.Id,
-                (friend, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id, user.TimeLeft)
+                (friend, user) => new User(user.Username, user.Offense, user.ReleaseDate, user.Id, user.TimeLeft, user.Interests)
                 )
                 .SingleOrDefault();
                 var friendExistsNot = myFriendsFriends.Any(f => f.Id == myFriendsFriend.Id);
