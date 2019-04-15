@@ -43,13 +43,14 @@ namespace ClinkedIn.Models
             DisplayName = displayName;
         }
 
-        public User(string username, string offense, DateTime releaseDate, int id, TimeSpan timeLeft)
+        public User(string username, string offense, DateTime releaseDate, int id, TimeSpan timeLeft, List<string>interests)
         {
             Id = id;
             Username = username;
             ReleaseDate = releaseDate;
             Offense = offense;
             TimeLeft = timeLeft;
+            Interests = interests;
         }
 
         public User(List<string> interests)
