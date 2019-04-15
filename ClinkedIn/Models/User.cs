@@ -17,12 +17,13 @@ namespace ClinkedIn.Models
         public List<string> Interests { get; set; } = new List<string>();
         public TimeSpan TimeLeft { get; set; }
 
-        public User(string username, string password, string displayName, string offense)
+        public User(string username, string password, string displayName, string offense, DateTime releaseDate)
             {
                 Username = username;
                 Password = password;
                 DisplayName = displayName;
                 Offense = offense;
+            ReleaseDate = releaseDate;
             }
 
         public User(int id, string username, string password, string displayName, string offense, DateTime releaseDate)
@@ -42,12 +43,13 @@ namespace ClinkedIn.Models
             DisplayName = displayName;
         }
 
-        public User(string username, string offense, DateTime releaseDate, int id)
+        public User(string username, string offense, DateTime releaseDate, int id, TimeSpan timeLeft)
         {
             Id = id;
             Username = username;
             ReleaseDate = releaseDate;
             Offense = offense;
+            TimeLeft = timeLeft;
         }
 
         public User(List<string> interests)

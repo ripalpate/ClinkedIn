@@ -35,7 +35,7 @@ namespace ClinkedIn.Data
 
         public User GetAllInterests(int userId)
         {
-            var User = _userRepository.GetUser(userId);
+            var User = _userRepository.GetUsersById(userId);
             var listOfInterests = _interests.Where(interest => interest.UserId == userId).Select(interest => interest.InterestName).ToList();
             string stringOfInterests = string.Join(",", listOfInterests.ToArray());
             User.First().Interests.Clear();
