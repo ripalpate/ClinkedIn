@@ -31,7 +31,6 @@ namespace ClinkedIn.Data
 
         public List<User> GetAllUsers()
         {
-
             foreach (User user in _users)
             {
                 var timeLeft = GetTimeLeft(user.ReleaseDate);
@@ -43,7 +42,14 @@ namespace ClinkedIn.Data
         public List<User> GetUsersById(int userId)
         {
             var _user = _users.Where(x => x.Id == userId).ToList();
+            {
 
+            }
+            foreach (User user in _user)
+            {
+                var timeLeft = GetTimeLeft(user.ReleaseDate);
+                user.TimeLeft = timeLeft;
+            }
             return _user;
         }
 

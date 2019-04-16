@@ -26,6 +26,15 @@ namespace ClinkedIn.Controllers
 
         }
 
+        [HttpGet()]
+
+        public ActionResult GetAllConnections()
+        {
+            var allConnections = _connectionRepository.GetAllConnections();
+
+            return Ok(allConnections);
+        }
+
         [HttpGet("{userId}")]
 
         public ActionResult GetAllConnectionsByUserId(int userId)
@@ -74,6 +83,27 @@ namespace ClinkedIn.Controllers
             var newConnection = _connectionRepository.AddConnection(createRequest.UserId1, createRequest.UserId2, createRequest.IsFriend);
 
             return Created($"api/connect/{newConnection.Id}", newConnection);
+        }
+
+        [HttpDelete("{id}/{userId}")]
+
+        public ActionResult DeleteConnection(int id, int userId)
+        {
+            var connections = _connectionRepository.DeleteConnection(id, userId);
+
+            return Ok(connections);
+        }
+
+        [HttpPut("{id}")]
+
+        public ActionResult EditConnection(UpdateConcectionRequest connectionToEdit, int id)
+        {
+            var editedConnection = _connectionRepository.EditConnection(connectionToEdit.UserId1, 
+                                                                    connectionToEdit.UserId2,
+                                                                    connectionToEdit.IsFriend,
+                                                                    connectionToEdit.Id);
+
+            return Ok(editedConnection);
         }
     }
 }
